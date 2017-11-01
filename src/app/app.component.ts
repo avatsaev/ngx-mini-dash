@@ -1,31 +1,92 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {WeatherService} from './core/services/weather.service';
+import {CryptoCurrencyService} from './core/services/crypto-currency.service';
+import * as fromApp from './core/store/app.reducer';
+import * as appActions from './core/store/app.actions';
+import * as fromRoot from './core/store';
+import {Store} from '@ngrx/store';
+import {CryptoWidget, WeatherWidget, Widget} from './core/models/widget';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
-  selector: 'app-root',
+  selector: 'root',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+
+    <navbar></navbar>
+
+    <div class="hero-body">
+      <div class="container has-text-centered">
+
+        <section class="hero is-info welcome is-small">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">
+                Welcome to <b>NGX MINI-DASH</b>
+              </h1>
+              <h2 class="subtitle" style="font-size: 14px">
+                Try adding some weather or crypto currency widgets, they will update in real time.
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        <div class="tile is-ancestor has-text-centered">
+          
+          <div class="tile is-parent" *ngFor="let w of widgets$ | async; trackBy: widgetsTrackByfn">
+
+          <crypto-widget *ngIf="w.type =='crypto'" 
+                         [widget]="w" 
+                         [refreshInterval]="2000"
+                         (onUpdate)="onWidgetUpdate($event)" 
+          ></crypto-widget>
+
+          <weather-widget *ngIf="w.type =='weather'"
+            [widget]="w"
+            [refreshInterval]="60000"
+            (onUpdate)="onWidgetUpdate($event)"
+          ></weather-widget>
+          
+          </div>
+
+        </div>
+
+      </div>
     </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    
+
   `,
-  styles: []
+  styles: [`
+    .welcome {
+      background: linear-gradient(to right, #5B86E5, #36D1DC);
+      margin-bottom: 2rem;
+      border-radius: 10px;
+    }
+  `]
 })
-export class AppComponent {
-  title = 'app';
+export class AppComponent implements OnInit {
+
+  widgets$: Observable<Widget[]>;
+  widgetsTrackByfn = (w: Widget) => w.id;
+
+
+  constructor(private store: Store<fromRoot.State>) {
+  }
+
+  ngOnInit() {
+
+    const ethWidget = new CryptoWidget('ETH', 'EUR');
+    const btcWidget = new CryptoWidget('BTC', 'EUR');
+    const strasbourgWeatherWidget = new WeatherWidget('Strasbourg');
+
+    this.widgets$ = this.store.select(fromRoot.getAllWidgets);
+
+    this.store.dispatch(new appActions.AddWidget(ethWidget));
+    this.store.dispatch(new appActions.AddWidget(btcWidget));
+    this.store.dispatch(new appActions.AddWidget(strasbourgWeatherWidget));
+
+  }
+
+
+  onWidgetUpdate(w: Widget) {
+    this.store.dispatch(new appActions.UpdateWidget(w))
+  }
 }

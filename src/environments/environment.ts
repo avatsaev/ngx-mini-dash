@@ -4,5 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  weatherApiConf:{
+    appId: 'df0b392e150a3ba2725f5e39081fe06a',
+    url: 'https://api.openweathermap.org/data/2.5'
+  },
+  cryptoCurrencyApiConf:{
+    url: 'https://min-api.cryptocompare.com/data'
+  }
+
 };
