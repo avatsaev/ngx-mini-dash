@@ -29,7 +29,7 @@ export class AppEffects {
         return this.cryptoApi.getPrice(widget.inCurrency, widget.outCurrency)
           .map(price => new appActions.UpdateWidgetSuccess({id: widget.id, price}))
       }else{
-        const widget = w as WeatherWidget''
+        const widget = w as WeatherWidget;
         return this.weatherApi.getCityWeather(widget.city)
           .map(({min, max}) => new appActions.UpdateWidgetSuccess({id: widget.id, min, max}))
 
