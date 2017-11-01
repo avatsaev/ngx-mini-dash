@@ -1,6 +1,8 @@
 ## NGX MINI-DASH
 
 
-Mini Crypto Currency / Weather dashboard made with Angular
+Crypto Currency / Weather mini dashboard made with Angular
+
+Live Demo: https://ngx-mini-dash.firebaseapp.com/
 
 ![](https://i.imgur.com/GZb71b1.png)
