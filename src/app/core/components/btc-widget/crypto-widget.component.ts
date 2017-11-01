@@ -1,29 +1,34 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {CryptoWidget} from '../../models/widget';
+import {timer} from 'rxjs/observable/timer';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'crypto-widget',
-  template: `
-
-    <article class="tile is-child box">
-        <p class="title">
-            {{price}} {{outCurrency}}
-        </p>
-        <p class="subtitle">1 {{inCurrency}}</p>
-    </article>
-
+  template: `    
+    <p class="title">
+      {{widget.price}} {{widget.outCurrency}}
+    </p>
+    <p class="subtitle">1 {{widget.inCurrency}}</p>
   `,
-  styles: [],
-  host: {'class': 'tile is-parent'}
+  host: {class: 'tile is-child box'}
 })
-export class CryptoWidgetComponent implements OnInit {
 
-  @Input() price = 0;
-  @Input() outCurrency = 'USD';
-  @Input() inCurrency = 'BTC';
+export class CryptoWidgetComponent implements OnInit, OnDestroy{
 
-  constructor() { }
+  @Input() widget: CryptoWidget;
+  @Input() refreshInterval = 3000;
+  @Output() onUpdate = new EventEmitter<CryptoWidget>();
+  refreshSub: Subscription;
+
 
   ngOnInit() {
+    this.refreshSub = timer(0, this.refreshInterval)
+      .subscribe(_ => this.onUpdate.emit(this.widget));
+  }
+
+  ngOnDestroy(){
+    this.refreshSub.unsubscribe();
   }
 
 }

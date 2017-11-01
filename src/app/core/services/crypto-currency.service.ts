@@ -1,32 +1,19 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators/map';
 import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class CryptoCurrencyService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-
-  getBtcPrice(outCurrency = 'USD'): Observable<{price: number, outCurrency: string}> {
+  getPrice(inCurrency: string, outCurrency: string): Observable<number> {
     return this.http
-        .get(`${environment.cryptoCurrencyApiConf.url}/price?fsym=BTC&tsyms=${outCurrency}`)
-        .pipe(
-            map(r => ({
-                price: r[outCurrency],
-                outCurrency
-            }))
-        );
-  }
-
-  getEthPrice(outCurrency = 'USD'): Observable<{price: number, outCurrency: string}> {
-      return this.http.get(`${environment.cryptoCurrencyApiConf.url}/price?fsym=ETH&tsyms=${outCurrency}`).pipe(
-            map(r => ({
-                price: r[outCurrency],
-                outCurrency
-            }))
+      .get(`${environment.cryptoCurrencyApiConf.url}/price?fsym=${inCurrency}&tsyms=${outCurrency}`)
+      .pipe(
+        map(r => r[outCurrency])
       );
   }
 

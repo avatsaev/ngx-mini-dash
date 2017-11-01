@@ -19,16 +19,22 @@
     "@angular/http": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
+    "@ngrx/effects": "^4.1.0",
+    "@ngrx/entity": "^4.1.0",
+    "@ngrx/store": "^4.1.0",
+    "@ngrx/store-devtools": "^4.0.0",
+    "@angular/service-worker": "^5.0.0",
     "bulma": "^0.6.0",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
     "rxjs": "^5.5.2",
+    "uuid": "^3.1.0",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
-    "@angular/cli": "^1.5.0-rc.8",
+    "@angular/cli": "^1.5.0",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
-    "typescript": "^2.4.2"
+    "typescript": "~2.4.2"
   }
 }

@@ -1,28 +1,34 @@
-import {Component, Input, OnInit} from '@angular/core';
+
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {WeatherWidget} from '../../models/widget';
+import {Subscription} from 'rxjs/Subscription';
+import {timer} from 'rxjs/observable/timer';
 
 @Component({
   selector: 'weather-widget',
-  template: `
-
-    <article class="tile is-child box">
-        <p class="title">{{degreesMin}}°C - {{degreesMax}}°C</p>
-        <p class="subtitle">Weather in {{city}}</p>
-    </article>
-
+  template: `    
+    <p class="title">{{widget.min}}°C - {{widget.max}}°C</p>
+    <p class="subtitle">Weather in {{widget.city}}</p>
   `,
-  styles: [],
-  host: {'class': 'tile is-parent'}
-
+  host: {class: 'tile is-child box'}
 })
-export class WeatherWidgetComponent implements OnInit {
 
-  @Input() city: string = '';
-  @Input() degreesMax: number = 0;
-  @Input() degreesMin: number = 0;
+export class WeatherWidgetComponent implements OnInit, OnDestroy{
 
-  constructor() { }
+  @Input() widget: WeatherWidget;
+  @Input() refreshInterval = 3000;
+  @Output() onUpdate = new EventEmitter<WeatherWidget>();
+  refreshSub: Subscription;
+
+
 
   ngOnInit() {
+    this.refreshSub = timer(0, this.refreshInterval)
+      .subscribe(_ => this.onUpdate.emit(this.widget));
+  }
+
+  ngOnDestroy(){
+    this.refreshSub.unsubscribe();
   }
 
 }
