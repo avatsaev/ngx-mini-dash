@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {WeatherService} from './core/services/weather.service';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import {CryptoCurrencyService} from './core/services/crypto-currency.service';
 
 
@@ -51,7 +50,6 @@ import {CryptoCurrencyService} from './core/services/crypto-currency.service';
           
       </div>
     </div>
-      
     
   `,
   styles: [`
