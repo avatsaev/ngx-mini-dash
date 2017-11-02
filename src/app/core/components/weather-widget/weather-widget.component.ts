@@ -6,9 +6,13 @@ import {timer} from 'rxjs/observable/timer';
 
 @Component({
   selector: 'weather-widget',
-  template: `    
-    <p class="title">{{widget.min}}°C - {{widget.max}}°C</p>
-    <p class="subtitle">Weather in {{widget.city}}</p>
+  template: `
+    
+    <div class="widget-container">
+      <p class="title">{{widget.min}}°C - {{widget.max}}°C</p>
+      <p class="subtitle">Weather in {{widget.city}}</p>
+    </div>
+
   `,
   host: {class: 'tile is-child box'}
 })
