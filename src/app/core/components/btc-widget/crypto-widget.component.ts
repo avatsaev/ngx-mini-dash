@@ -29,7 +29,7 @@ import {Subscription} from 'rxjs/Subscription';
 
     :host(.up){
       background-color: #26c281;
-      transition: background 0.3s ease;
+      transition: background 0.5s ease;
     }
     
     p{
@@ -59,7 +59,15 @@ export class CryptoWidgetComponent implements OnInit, OnDestroy, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.isDown = (changes.widget.previousValue && changes.widget.currentValue.price < changes.widget.previousValue.price)
+
+    if(changes.widget.previousValue) {
+      if(changes.widget.currentValue.price < changes.widget.previousValue.price) {
+        this.isDown = true;
+      }else if(changes.widget.currentValue.price > changes.widget.previousValue.price) {
+        this.isDown = false;
+      }
+    }
+
   }
 
 }

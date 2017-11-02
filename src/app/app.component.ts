@@ -76,9 +76,11 @@ export class AppComponent implements OnInit {
 
     const ethWidget = new CryptoWidget('ETH', 'EUR');
     const btcWidget = new CryptoWidget('BTC', 'EUR');
+    const ltcWidget = new CryptoWidget('LTC', 'EUR');
     const strasbourgWeatherWidget = new WeatherWidget('Strasbourg');
 
     this.store.dispatch(new appActions.AddWidget(ethWidget));
+    this.store.dispatch(new appActions.AddWidget(ltcWidget));
     this.store.dispatch(new appActions.AddWidget(btcWidget));
     this.store.dispatch(new appActions.AddWidget(strasbourgWeatherWidget));
 
