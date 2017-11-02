@@ -24,7 +24,7 @@ export class UpdateWidget implements Action {
 
 export class UpdateWidgetSuccess implements Action {
   readonly type = UPDATE_WIDGET_SUCCESS;
-  constructor(public payload: Partial<Widget | CryptoWidget | WeatherWidget>) {};
+  constructor(public payload: Partial< CryptoWidget | WeatherWidget>) {};
 }
 
 export type All =

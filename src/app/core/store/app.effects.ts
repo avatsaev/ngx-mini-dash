@@ -32,10 +32,10 @@ export class AppEffects {
         const widget = w as WeatherWidget;
         return this.weatherApi.getCityWeather(widget.city)
           .map(({min, max}) => new appActions.UpdateWidgetSuccess({id: widget.id, min, max}))
-
       }
 
     });
+    // TODO: Figure out why piping doesn't work with services (something to do with this context)
     // .pipe(
     //   map((action: appActions.UpdateWidget) => action.payload),
     //   switchMap((w: CryptoWidget) =>
