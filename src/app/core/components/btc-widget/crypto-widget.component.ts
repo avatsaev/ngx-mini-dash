@@ -2,13 +2,18 @@ import {
   Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
   SimpleChanges
 } from '@angular/core';
-import {CryptoWidget} from '../../models/widget';
+import {CryptoWidget, Widget} from '../../models/widget';
 import {timer} from 'rxjs/observable/timer';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'crypto-widget',
-  template: `   
+  template: `
+    
+    <span (click)="onClose.emit(this.widget)" style="margin-top: -10px" class="is-pulled-right">
+      <i style="color: #eee; cursor: pointer" class="fa fa-times-circle-o" aria-hidden="true"></i>
+    </span>
+    
     <div class="widget-container">
       <p class="title">
         {{widget.price}} {{widget.outCurrency}}
@@ -44,14 +49,15 @@ export class CryptoWidgetComponent implements OnInit, OnDestroy, OnChanges{
 
   @Input() widget: CryptoWidget;
   @Input() refreshInterval = 3000;
-  @Output() onUpdate = new EventEmitter<CryptoWidget>();
+  @Output() onUpdateRequest = new EventEmitter<CryptoWidget>();
+  @Output() onClose = new EventEmitter<Widget>();
   isDown = true;
   refreshSub: Subscription;
 
 
   ngOnInit() {
     this.refreshSub = timer(0, this.refreshInterval)
-      .subscribe(_ => this.onUpdate.emit(this.widget));
+      .subscribe(_ => this.onUpdateRequest.emit(this.widget));
   }
 
   ngOnDestroy(){

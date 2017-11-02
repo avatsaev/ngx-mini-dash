@@ -1,6 +1,4 @@
-
 import * as fromApp from './app.reducer';
-
 import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
 
 export interface State {
