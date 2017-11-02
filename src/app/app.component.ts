@@ -35,7 +35,7 @@ import {Observable} from 'rxjs/Observable';
   
             <crypto-widget *ngIf="w.type =='crypto'" 
                            [widget]="w" 
-                           [refreshInterval]="2000"
+                           [refreshInterval]="3000"
                            (onUpdate)="onWidgetUpdate($event)" 
             ></crypto-widget>
   
