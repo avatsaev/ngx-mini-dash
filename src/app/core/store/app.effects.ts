@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {Action} from '@ngrx/store';
 import {CryptoWidget, WeatherWidget, Widget} from '../models/widget';
 import * as appActions from '../store/app.actions';
-import 'rxjs/add/observable/empty'
+import {empty} from 'rxjs/observable/empty';
 
 const extractInOutCurrencies = (w: Widget) => [(w as CryptoWidget).inCurrency, (w as CryptoWidget).outCurrency];
 const extractCity = (w: Widget) => (w as WeatherWidget).city;
@@ -34,13 +34,17 @@ export class AppEffects {
 
           map( ({min, max}) => mapToUpdateWeatherAction(widget, min, max))
 
-      ) : Observable.empty()
+      ) : empty()
 
     )
 
   );
 
-  constructor(private actions$: Actions, private weatherApi: WeatherService, private cryptoApi: CryptoCurrencyService) {}
+  constructor(
+    private actions$: Actions,
+    private weatherApi: WeatherService,
+    private cryptoApi: CryptoCurrencyService
+  ) {}
 }
 
 
