@@ -9,7 +9,7 @@ export class CryptoCurrencyService {
 
   constructor(private http: HttpClient) {}
 
-  getPrice(inCurrency: string, outCurrency: string): Observable<number> {
+  getPrice({inCurrency, outCurrency}): Observable<number> {
     return this.http
       .get(`${environment.cryptoCurrencyApiConf.url}/price?fsym=${inCurrency}&tsyms=${outCurrency}`)
       .pipe(
